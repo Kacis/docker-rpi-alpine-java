@@ -1,7 +1,5 @@
 sudo: required
-env:
-  matrix:
-  - DOCKER_USERNAME=kacis  
+  
 services:
 - docker
 script:
