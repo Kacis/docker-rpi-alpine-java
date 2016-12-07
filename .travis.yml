@@ -5,3 +5,6 @@ services:
 
 script:
 - sh docker-build.sh
+
+after_success:
+- echo "Ahoj"
