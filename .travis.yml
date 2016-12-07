@@ -13,9 +13,9 @@ script:
 
 after_script:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then 
-  cat version
-  export VERSION_TAG=`cat version`
-  echo "$VERSION_TAG"
+  cat version;
+  export VERSION_TAG=`cat version`;
+  echo "$VERSION_TAG";
   fi
 
 after_success:
