@@ -1,5 +1,8 @@
 sudo: required
 
+env:
+- DOCKER_USERNAME=kacis
+
 services:
   - docker
 
@@ -7,4 +10,4 @@ script:
 - sh docker-build.sh
 
 after_success:
-- echo "Ahoj"
+- echo $DOCKER_USERNAME
