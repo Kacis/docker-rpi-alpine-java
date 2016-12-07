@@ -1,12 +1,17 @@
 sudo: required
-services:
-- docker
-script:
-- sh docker-build.sh
-after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  fi
+
 env:
   global:
   - secure: KxxPrKOAiXtnkdw0tMeDQ5FxQVw5nJC5BySMzS9yzjPBpK4wkoJ7SlffCqO9oWoxCe+9P389gLByc/MNjL0ARSo6XAJBsdQRAXBXbTxVH60bO6ALxUk5DPjSVcPJzoJx7G5zTmUHXrvNcEpDOYN7tNDrRh/ErSfeBh3qyy+MsJqR/IDoWHRj9OogYAk1FsAC4d+Cw734aymNr7nKg3y2OjHs1i3yTXnZfXwtmz76YufsVK/GymErkO9U7wY7uCPJaM6j+oaRidUNHZQ8BtZs4JKmNUgrpurIR5+mNFKvuRQOfsoZggRlwrecq6uV8Y2AhkbDJWjNSEBpoZg6W/tqnpFYcF7d/OneexzCwWJRVGNYg9aBBc2AlLDt33FFZYdI5gLfAtiBbsxwSbhZ1HOe3NB2U7/3V4Su3ijkq6KPZad7ayq65LXxg+GqkUiMrh02+qk4M2syvLHXjbPYo04WG8gKgio2E+9hxXDhM8Juq4NzwC6k2t9lPN9fY9H2uGNHXleql7HDYMwpIroF9OZD22B6HJ3AI53uy50rsUOW/p4nTBGrm1S91Z7/pSxqa3ZnrH6unyvUtTW0XIT61Vo+Lhy0+n7G/c5gJonQpO5ZY4xmlJhI+QLvOYWBm7RiGp1yOWQzHMJCVQ2txetCYCQDe32+33RMWB2RNSkDbMh0HCM=
   - secure: mB6uPFPI/8lROwGaP4ssht1rTCIvo3mNV1FNaCPN95vKhfpKhdeinNSTeGqCx2O7gvVKAcjc5ObeNLn7Lfa3TiUNA5I8h3Nt/0bEHqQgvpnmDSFt3Q0f+m1p7CL4XV0D8FErc8uNhMDBu0NJziVoHtpStmcey5fqYnNVYl6cTPylKim20FNHhDDBZrl9Sret9ctRsSRRIbpDyvQ0EnSG9lzExpTqEDzJLdZYyI86hI3ZHH94191rBz4nQpBb+e0+OQtWhExYjUyd3s52YwUQ4JJi8Ro1XOLgJ0ZVbeTkQGYgAKLlPkRh6/sFweX75VCxFNSTAkjSLfYn2hfCGpMbqyZON7Rf+SHO9m5IiqM3ePj9aRyjig1CotrR79vgIdZH2f2kTkHskXvxVCt6D+MTNYZ0T49V+F+CLB/CHx7JS9RxewHEmD891AAlCfslkV/XUA9zpuE5hc9IcyXxffxQ6xMqNl59XTCSwoPKx4jNoVX8c216J6WKWkqLTp5Y+uA86fZp3MG3KwVzq24kYNdvpm9/oTkax4uq8bJSQ0OiVxopolJzwFTJ9qYE1TN6NaZt/Dhn1Jco5EY9Ov1oEF1HxvTS/hB2UFZSifci4jfTtOZ8xZxT+2FrTZ0VGleoioPIZklVcMX85Zx7X9KsgEAEGkgkDM9GrLAe0Fu3t15fjJk=
+
+services:
+- docker
+
+script:
+- sh docker-build.sh
+
+after_script:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  docker push USER/REPO;
+  fi
