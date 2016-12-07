@@ -12,6 +12,14 @@ script:
 - sh docker-build.sh
 
 after_script:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+- if [ "$TRAVIS_BRANCH" == "master" ]; then 
+  cat version
+  export VERSION_TAG=`cat version`
+  echo "$VERSION_TAG"
+  fi
+
+after_success:
+- if [ "$TRAVIS_BRANCH" == "release" ]; then 
+  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   docker push "$IMAGE";
   fi
