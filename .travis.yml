@@ -9,12 +9,12 @@ services:
 - docker
 
 script:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then 
-  export VERSION_TAG=`cat version`;
-  git tag $VERSION_TAG;
-  fi
 - sh docker-build.sh
-- if [ "$TRAVIS_BRANCH" == "release" ]; then 
+- if [ "$TRAVIS_BRANCH" == "release" ]; then
+  export VERSION_TAG=`cat version`; 
   docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  docker tag "$IMAGE" "$IMAGE:$VERSION_TAG";
+  docker images;
   docker push "$IMAGE";
+  docker push "$IMAGE:$VERSION_TAG";
   fi
