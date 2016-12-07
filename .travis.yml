@@ -1,15 +1,13 @@
 sudo: required
-
 env:
-- DOCKER_USERNAME=kacis
-
+  matrix:
+  - DOCKER_USERNAME=kacis
+  global:
+    secure: k6240mTsNxoSUFaYz/1LixFwO4u1PjOY2j5Io/z5/sOlE/G7bchAH94YQJa4pSYHJOiJaFHy1GhdOWroUfNw5bWYFBs0ExD7MZMZo/7Ns0SWtLV7BUx5Oi0tmcJuXu4V4fdx59v7RnNppvA7DXlqZBmInBSCOHEivPanR5JyimLmUZGh0sQj5SN2Y+wjHh3Uh88HUHzZ4jbtMj7/0mrCHeSlYdEIo1ug9GMsZOrKiA7iviT9PRPj3MoSdYz7JQcQnOPN+ib1QMXhvQ1DtEtUAxm9A0APGSBOSBRKUWe55S2OdXJzbRuM1AO0RmELBIEkqW0B/1ka30qvL8Db5qfkejDW+qj9XFk7rsgX+R0Uv9RsqwLQPtbHSTzCmZy7dSs+8+KQWtrzExjIQRhK37t63eKRBkKJd3WmpD2Z1YSH55Ux+FIHBdSCQ0pSku/B9TH+oxuA+Rvx9oyvcJb5xjusIu3/We18nNkjNUlID8vbwK4GHibO3vR7fJJvX3XYX4bL8Ukobg/wlylzr7dEXeM+tiJ4PkhUWb9PpGCm4RSorbkeiFp6L+x4BH2Hv7bFTY2W29VdGbX/H8QQPSnxlgmh11p4j34HbREqYb6oBEOm0KI6MKr9VcESvPxupAHIFWzEoGvDiipTuJ9iQvF7lM9oconhiH7IZ2OX8tm0h6fEuIk=
 services:
-  - docker
-
+- docker
 script:
 - sh docker-build.sh
-
 after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  fi
