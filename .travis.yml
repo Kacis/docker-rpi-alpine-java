@@ -18,6 +18,7 @@ script:
 after_script:
 - docker images;
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+- docker images;
 - docker tag "$IMAGE" "$IMAGE:$SNAPSHOT";
 - if [ "$TRAVIS_BRANCH" == "master" ]; docker push "$IMAGE:$SNAPSHOT";
 
