@@ -20,7 +20,7 @@ before_deploy:
   - git config --global user.name "Travis CI"
   - export GIT_TAG=`cat version`;
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push origin --tags
+  - git push -q https://$TAGPERM@github.com/kacis/docker-rpi-alpine-java --tags
   - ls -R
 
 deploy:
