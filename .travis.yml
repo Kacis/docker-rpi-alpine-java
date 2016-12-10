@@ -22,8 +22,8 @@ before_deploy:
 - git push -q https://$GITHUB_TOKEN@github.com/kacis/docker-rpi-alpine-java --tags;
 - docker images;
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-- docker tag "$IMAGE" "$IMAGE:$VERSION_TAG";
-- docker push "$IMAGE:$VERSION_TAG";
+- docker tag "$IMAGE" "$IMAGE:$GIT_TAG";
+- docker push "$IMAGE:$GIT_TAG";
 - docker push "$IMAGE";
 - ls -R;
 
