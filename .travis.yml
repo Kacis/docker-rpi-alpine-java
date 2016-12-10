@@ -20,7 +20,8 @@ after_script:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 - docker tag "$IMAGE" "$IMAGE:$SNAPSHOT";
 - docker images;
-- if [ "$TRAVIS_BRANCH" == "master" ]; docker push "$IMAGE:$SNAPSHOT";
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker push "$IMAGE:$SNAPSHOT";
+  fi
 
 before_deploy:
 - git config --global user.email "builds@travis-ci.com";
