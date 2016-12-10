@@ -1,5 +1,4 @@
 sudo: required
-
 env:
   global:
   - secure: KxxPrKOAiXtnkdw0tMeDQ5FxQVw5nJC5BySMzS9yzjPBpK4wkoJ7SlffCqO9oWoxCe+9P389gLByc/MNjL0ARSo6XAJBsdQRAXBXbTxVH60bO6ALxUk5DPjSVcPJzoJx7G5zTmUHXrvNcEpDOYN7tNDrRh/ErSfeBh3qyy+MsJqR/IDoWHRj9OogYAk1FsAC4d+Cw734aymNr7nKg3y2OjHs1i3yTXnZfXwtmz76YufsVK/GymErkO9U7wY7uCPJaM6j+oaRidUNHZQ8BtZs4JKmNUgrpurIR5+mNFKvuRQOfsoZggRlwrecq6uV8Y2AhkbDJWjNSEBpoZg6W/tqnpFYcF7d/OneexzCwWJRVGNYg9aBBc2AlLDt33FFZYdI5gLfAtiBbsxwSbhZ1HOe3NB2U7/3V4Su3ijkq6KPZad7ayq65LXxg+GqkUiMrh02+qk4M2syvLHXjbPYo04WG8gKgio2E+9hxXDhM8Juq4NzwC6k2t9lPN9fY9H2uGNHXleql7HDYMwpIroF9OZD22B6HJ3AI53uy50rsUOW/p4nTBGrm1S91Z7/pSxqa3ZnrH6unyvUtTW0XIT61Vo+Lhy0+n7G/c5gJonQpO5ZY4xmlJhI+QLvOYWBm7RiGp1yOWQzHMJCVQ2txetCYCQDe32+33RMWB2RNSkDbMh0HCM=
@@ -7,14 +6,16 @@ env:
   - IMAGE=kacis/docker-rpi-alpine-java
 services:
 - docker
-
 script:
 - sh docker-build.sh
-- if [ "$TRAVIS_BRANCH" == "release" ]; then
-  export VERSION_TAG=`cat version`; 
-  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  docker tag "$IMAGE" "$IMAGE:$VERSION_TAG";
-  docker images;
-  docker push "$IMAGE";
-  docker push "$IMAGE:$VERSION_TAG";
-  fi
+- if [ "$TRAVIS_BRANCH" == "release" ]; then export VERSION_TAG=`cat version`; docker
+  login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; docker tag "$IMAGE" "$IMAGE:$VERSION_TAG";
+  docker images; docker push "$IMAGE"; docker push "$IMAGE:$VERSION_TAG"; fi
+deploy:
+  provider: releases
+  api_key:
+    secure: CnGKXdf9MasdxLJCZsUYTPLpb2KiC8Tbjp4ciR+8bUFjtrlvb59jv18oAAs5bIeuO6mm87ZG+OFP483qhK6ti6fXo+mdseY0epMYzk0jTojqx3CPdw45teGbRh7mAS1tJTI4auBeJ6PYBP4Bu99JzWM4Ler3v2PiWkFt1+ldqiqmG1ITS9Mt+/+BKS92jN11sEmGNP+41n6N1zAMYacjqM3vwF3KJlIN0RPRCyRe/VSZy+ylhtH8hVQNg/H4Pu74UJBDtMGfzZCfCMMxpj+Hytr5ovs8fyy94p3Mgsi+L4i8maGLPy2Mz5QjWdDOErkLssKRN8PMD8nHhqFA6FRHTZCvHk7Vls3E+fegMylm5+CpMom9Dd+6ePzmzHZC3MOQDxawfrVzDdM4I63wnDbKFF72MRR252w5qITMjHoZQGj7fX6pd2esy0OcA9DuDxFbTB1Ow3WubuzDp+5vK2ITN5zD5UctixNZyEmtp/qaQs74uLhT6eLgcjIKGzLq7Kak6jqp/KkESZgen7oHwZ/TXOF5JmB0BGnJSzT1FULGcv24alx59ZVQguLLIW7ILz3FBiWec9FAQDutbKSzZm/2uUs61DbQPaYM9z94vSml42jDhwTkDrVqfUHGq8G5aQMUht2NUVgNoh4v9AdaGjqa/vErcNWhLpaKQC9v8QS9CQU=
+  file: ''
+  on:
+    repo: kacis/docker-rpi-alpine-java
+    branch: release
