@@ -5,29 +5,26 @@ env:
   - secure: mB6uPFPI/8lROwGaP4ssht1rTCIvo3mNV1FNaCPN95vKhfpKhdeinNSTeGqCx2O7gvVKAcjc5ObeNLn7Lfa3TiUNA5I8h3Nt/0bEHqQgvpnmDSFt3Q0f+m1p7CL4XV0D8FErc8uNhMDBu0NJziVoHtpStmcey5fqYnNVYl6cTPylKim20FNHhDDBZrl9Sret9ctRsSRRIbpDyvQ0EnSG9lzExpTqEDzJLdZYyI86hI3ZHH94191rBz4nQpBb+e0+OQtWhExYjUyd3s52YwUQ4JJi8Ro1XOLgJ0ZVbeTkQGYgAKLlPkRh6/sFweX75VCxFNSTAkjSLfYn2hfCGpMbqyZON7Rf+SHO9m5IiqM3ePj9aRyjig1CotrR79vgIdZH2f2kTkHskXvxVCt6D+MTNYZ0T49V+F+CLB/CHx7JS9RxewHEmD891AAlCfslkV/XUA9zpuE5hc9IcyXxffxQ6xMqNl59XTCSwoPKx4jNoVX8c216J6WKWkqLTp5Y+uA86fZp3MG3KwVzq24kYNdvpm9/oTkax4uq8bJSQ0OiVxopolJzwFTJ9qYE1TN6NaZt/Dhn1Jco5EY9Ov1oEF1HxvTS/hB2UFZSifci4jfTtOZ8xZxT+2FrTZ0VGleoioPIZklVcMX85Zx7X9KsgEAEGkgkDM9GrLAe0Fu3t15fjJk=
   - secure: CnGKXdf9MasdxLJCZsUYTPLpb2KiC8Tbjp4ciR+8bUFjtrlvb59jv18oAAs5bIeuO6mm87ZG+OFP483qhK6ti6fXo+mdseY0epMYzk0jTojqx3CPdw45teGbRh7mAS1tJTI4auBeJ6PYBP4Bu99JzWM4Ler3v2PiWkFt1+ldqiqmG1ITS9Mt+/+BKS92jN11sEmGNP+41n6N1zAMYacjqM3vwF3KJlIN0RPRCyRe/VSZy+ylhtH8hVQNg/H4Pu74UJBDtMGfzZCfCMMxpj+Hytr5ovs8fyy94p3Mgsi+L4i8maGLPy2Mz5QjWdDOErkLssKRN8PMD8nHhqFA6FRHTZCvHk7Vls3E+fegMylm5+CpMom9Dd+6ePzmzHZC3MOQDxawfrVzDdM4I63wnDbKFF72MRR252w5qITMjHoZQGj7fX6pd2esy0OcA9DuDxFbTB1Ow3WubuzDp+5vK2ITN5zD5UctixNZyEmtp/qaQs74uLhT6eLgcjIKGzLq7Kak6jqp/KkESZgen7oHwZ/TXOF5JmB0BGnJSzT1FULGcv24alx59ZVQguLLIW7ILz3FBiWec9FAQDutbKSzZm/2uUs61DbQPaYM9z94vSml42jDhwTkDrVqfUHGq8G5aQMUht2NUVgNoh4v9AdaGjqa/vErcNWhLpaKQC9v8QS9CQU=
   - IMAGE=kacis/docker-rpi-alpine-java
-
+  - secure: Ng6r6w8fAyIiHk40Z5puOS2+pizG447QGbGAdByNGmBlMiLfchwgtILtTx/vgGGUdG9liQXM7HhMynML19JuO7u14dEpoJM/FOtwAYFIB90e/fxWFShSWsaQJaC7AZXOn73K8KNR6qqBrOcJ8CBB7dqP0CLtwno58OKRWVMzR5So6hstJrx6S7x8vEpHKPmof8nTCQB14lBWWZuPGQCcjux4bEr9Aowv6AiebtOFurBV6yOemRT3+n3t8Ze044HagGHFKiF4UwwPH1WiHmMm/jE740uXLy25PBBpyAiblAwWgaN0pdJ0wbN54XF4Wv4pjumid6IJ8JzQmufFwL4APR2B8kB5f0KcPRDmGGPo1BZnUJNGazgi5N0Lq8fo8mwAahajPI7Bv/e59QR+nxR4HW+95BRzdZg1Trmsh6899lGhKX21KvzzDfI2MjKA8qpqeUalXQ9/uUBFhsdWYVGeDEAxDow8CdTGsAnG986xjSrEheC/1f/tL6NHdb2w8fO4phOC/yaPduNX362KKghMwisxcYS67SR+rP8JdM4KU/QCv+gAbrP20otL+oBKrZOLI0BUMCg1L/ZZdqSHJ5eMUFKM83Hs31EkYWQDIHBgJV+vESMDC+IfC21WHvo1pnAHgFFiiR10mZmV5/JBufSEr9u6YEU+Gzbh4IfgzPnkRbk=
 services:
 - docker
-
 script:
 - sh docker-build.sh
 - if [ "$TRAVIS_BRANCH" == "release" ]; then export VERSION_TAG=`cat version`; docker
   login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; docker tag "$IMAGE" "$IMAGE:$VERSION_TAG";
   docker images; docker push "$IMAGE"; docker push "$IMAGE:$VERSION_TAG"; fi
-
 before_deploy:
-  - git config --global user.email "builds@travis-ci.com"
-  - git config --global user.name "Travis CI"
-  - export GIT_TAG=`cat version`;
-  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://$TAGPERM@github.com/kacis/docker-rpi-alpine-java --tags
-  - ls -R
-
+- git config --global user.email "builds@travis-ci.com"
+- git config --global user.name "Travis CI"
+- export GIT_TAG=`cat version`;
+- git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+- git push -q https://$GITHUB_TOKEN@github.com/kacis/docker-rpi-alpine-java --tags
+- ls -R
 deploy:
   provider: releases
   api_key:
     secure: CnGKXdf9MasdxLJCZsUYTPLpb2KiC8Tbjp4ciR+8bUFjtrlvb59jv18oAAs5bIeuO6mm87ZG+OFP483qhK6ti6fXo+mdseY0epMYzk0jTojqx3CPdw45teGbRh7mAS1tJTI4auBeJ6PYBP4Bu99JzWM4Ler3v2PiWkFt1+ldqiqmG1ITS9Mt+/+BKS92jN11sEmGNP+41n6N1zAMYacjqM3vwF3KJlIN0RPRCyRe/VSZy+ylhtH8hVQNg/H4Pu74UJBDtMGfzZCfCMMxpj+Hytr5ovs8fyy94p3Mgsi+L4i8maGLPy2Mz5QjWdDOErkLssKRN8PMD8nHhqFA6FRHTZCvHk7Vls3E+fegMylm5+CpMom9Dd+6ePzmzHZC3MOQDxawfrVzDdM4I63wnDbKFF72MRR252w5qITMjHoZQGj7fX6pd2esy0OcA9DuDxFbTB1Ow3WubuzDp+5vK2ITN5zD5UctixNZyEmtp/qaQs74uLhT6eLgcjIKGzLq7Kak6jqp/KkESZgen7oHwZ/TXOF5JmB0BGnJSzT1FULGcv24alx59ZVQguLLIW7ILz3FBiWec9FAQDutbKSzZm/2uUs61DbQPaYM9z94vSml42jDhwTkDrVqfUHGq8G5aQMUht2NUVgNoh4v9AdaGjqa/vErcNWhLpaKQC9v8QS9CQU=
-  file: 'version'
+  file: version
   on:
     tags: false
     repo: kacis/docker-rpi-alpine-java
