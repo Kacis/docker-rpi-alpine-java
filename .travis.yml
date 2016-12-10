@@ -26,6 +26,8 @@ before_deploy:
 - export GIT_TAG=`cat version`;
 - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER";
 - git push -q https://$GITHUB_TOKEN@github.com/kacis/docker-rpi-alpine-java --tags;
+- docker images;
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 - docker tag "$IMAGE" "$IMAGE:$GIT_TAG";
 - docker push "$IMAGE:$GIT_TAG";
 - docker push "$IMAGE";
